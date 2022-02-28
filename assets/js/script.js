@@ -149,26 +149,28 @@ $(".card .list-group").sortable({
   scroll: false,
   tolerance: "pointer",
   helper: "clone",
-  activate: function (event) {},
-  deactivate: function (event) {},
+  activate: function (event, ui) {},
+  deactivate: function (event, ui) {},
   over: function (event) {},
   out: function (event) {},
-  update: function (event) {
+  update: function () {
     var tempArr = [];
     $(this)
       .children()
       .each(function () {
-        var text = $(this).find("p").text().trim();
-        var date = $(this).find("span").text().trim();
+        // var text = $(this).find("p").text().trim();
+        // var date = $(this).find("span").text().trim();
         tempArr.push({
-          text: text,
-          date: date,
+          text: $(this).find("p").text().trim(),
+          date: $(this).find("span").text().trim(),
         });
       });
     var arrName = $(this).attr("id").replace("list-", "");
     tasks[arrName] = tempArr;
     saveTasks();
-    console.log(tempArr);
+  },
+  stop: function (event) {
+    $(this).removeClass("dropover");
   },
 });
 $("#trash").droppable({
